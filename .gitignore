@@ -11,6 +11,6 @@ __pycache__/
 
 .DS_Store
 
-.streamlit/
+.streamlit/secrets.toml
 
 dist/
