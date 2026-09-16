@@ -55,7 +55,7 @@ def get_teacher_subjects(teacher_id):
     subjects = response.data
 
     for sub in subjects:
-        sub['total_students'] = sub.get("subjects_student", [{}])[0].get('count', 0) if sub.get('subject_students') else 0
+        sub['total_students'] = sub.get("subject_students", [{}])[0].get('count', 0) if sub.get('subject_students') else 0
         attendance = sub.get('attendance_log', [])
         unique_sessions = len(set(log['timestamp'] for log in attendance))
         sub['total_classes'] = unique_sessions
@@ -64,3 +64,29 @@ def get_teacher_subjects(teacher_id):
         sub.pop('attendance_log', None)
 
     return subjects
+
+
+def enroll_student_to_subject(student_id, subject_id):
+    data = {"student_id": student_id, "subject_id": subject_id}
+
+    response = superbase.table("subject_students").insert(data).execute()
+
+    return response.data
+
+
+def unenroll_student_to_subject(student_id, subject_id):
+    response = superbase.table("subject_students").delete().eq("student_id", student_id).eq("subject_id", subject_id).execute()
+
+    return response.data
+
+
+def get_student_subjects(student_id):
+    response = superbase.table("subject_students").select("*, subjects(*)").eq("student_id", student_id).execute()
+
+    return response.data
+
+
+def get_student_attendance(student_id):
+    response = superbase.table("attendance_logs").select("*, subjects(*)").eq("student_id", student_id).execute()
+
+    return response.data
