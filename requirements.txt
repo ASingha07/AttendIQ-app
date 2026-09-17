@@ -1,3 +1,5 @@
+streamlit
+
 # Utilities
 numpy
 pandas
@@ -9,18 +11,12 @@ git+https://github.com/ageitgey/face_recognition_models
 setuptools<81.0.0
 
 
-
 supabase
 bcrypt
 
 
-
 segno
 pillow
-
-
-
-streamlit
 
 
 librosa
